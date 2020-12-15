@@ -4,50 +4,47 @@ import Button from 'components/Button'
 import { gaEvent } from 'utils/ga'
 
 import * as S from './styles'
+import { PricingBoxProps } from 'types/api'
+import { getBRL } from 'utils/getBRL'
 
 const onClick = () =>
   gaEvent({ action: 'click', category: 'buy', label: 'pricing box button' })
 
-const PricingBox = () => (
-  <S.Box>
-    <S.Prices>
-      <S.FullPrice>
-        De <span>R$549</span> por apenas
-      </S.FullPrice>
-      <S.DiscountPrice>
-        <span>6x de</span> R$74
-      </S.DiscountPrice>
-    </S.Prices>
-    <S.BenefitsList>
-      <S.BenefitsItem>
-        Acesso aos <strong>6 módulos</strong> assim que lançados
-      </S.BenefitsItem>
+const PricingBox = ({
+  totalPrice,
+  priceInstallments,
+  numberInstallments,
+  button,
+  benefits
+}: PricingBoxProps) => {
+  const discount = numberInstallments * priceInstallments
+  const formatedDiscount = getBRL(discount)
+  const formatedTotalPrice = getBRL(totalPrice)
+  const formatedPriceInstallments = getBRL(priceInstallments)
+  const formatedNumberInstallments = `${numberInstallments}x`
 
-      <S.BenefitsItem>
-        Código de <strong>todo o projeto</strong> separado em commits
-      </S.BenefitsItem>
+  return (
+    <S.Box>
+      <S.Prices>
+        <S.FullPrice>
+          De <span>{formatedTotalPrice}</span> por apenas
+        </S.FullPrice>
+        <S.DiscountPrice>
+          <span>{formatedNumberInstallments} de</span>{' '}
+          {formatedPriceInstallments}
+        </S.DiscountPrice>
+      </S.Prices>
+      <S.BenefitsList dangerouslySetInnerHTML={{ __html: benefits }} />
 
-      <S.BenefitsItem>
-        Contato <strong>direto</strong> com os instrutores via Slack
-      </S.BenefitsItem>
-
-      <S.BenefitsItem>
-        <strong>Lives exclusivas</strong> durante o curso
-      </S.BenefitsItem>
-    </S.BenefitsList>
-
-    <Button
-      href="https://www.udemy.com/course/react-avancado/?couponCode=PROMODEZ20"
-      onClick={onClick}
-      withPrice
-    >
-      <p>Comprar o curso</p>
-      <div>
-        <S.ButtonFullPrice>R$549</S.ButtonFullPrice>
-        <S.ButtonDiscountPrice>R$449</S.ButtonDiscountPrice>
-      </div>
-    </Button>
-  </S.Box>
-)
+      <Button href={button.url} onClick={onClick} withPrice>
+        <p>{button.label}</p>
+        <div>
+          <S.ButtonFullPrice>{formatedTotalPrice}</S.ButtonFullPrice>
+          <S.ButtonDiscountPrice>{formatedDiscount}</S.ButtonDiscountPrice>
+        </div>
+      </Button>
+    </S.Box>
+  )
+}
 
 export default PricingBox
