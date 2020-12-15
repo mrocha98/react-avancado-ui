@@ -88,6 +88,20 @@ export const GET_LANDING_PAGE = /* GraphQL */ `
     }
   }
 
+  fragment sectionReviews on LandingPage {
+    sectionReviews {
+      title
+      reviews {
+        name
+        text
+        photo {
+          url
+          alternativeText
+        }
+      }
+    }
+  }
+
   fragment sectionAboutUs on LandingPage {
     sectionAboutUs {
       title
@@ -118,6 +132,7 @@ export const GET_LANDING_PAGE = /* GraphQL */ `
       ...sectionAgenda
       ...pricingBox
       ...sectionAboutUs
+      ...sectionReviews
     }
   }
 `
