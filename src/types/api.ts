@@ -43,6 +43,11 @@ export type Review = {
   photo: Image
 }
 
+export type Question = {
+  question: string
+  answer: string
+}
+
 export type LogoProps = Image
 
 export type HeaderProps = {
@@ -102,6 +107,11 @@ export type SectionReviewsProps = {
   reviews: Review[]
 }
 
+export type SectionFAQProps = {
+  title: string
+  questions: Question[]
+}
+
 export type LandingPageProps = {
   logo: LogoProps
   header: HeaderProps
@@ -113,4 +123,5 @@ export type LandingPageProps = {
   pricingBox: PricingBoxProps
   sectionAboutUs: SectionAboutUsProps
   sectionReviews: SectionReviewsProps
+  sectionFAQ: SectionFAQProps
 }
